@@ -18,6 +18,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 use McCool\LaravelAutoPresenter\Facades\AutoPresenter;
 
 /**
@@ -69,6 +70,8 @@ class IncidentUpdatedNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $manageUrl = URL::signedRoute(cachet_route_generator('subscribe.manage'), ['code' => $notifiable->verify_code]);
+
         $content = trans('notifications.incident.update.mail.content', [
             'name'    => $this->update->incident->name,
             'time'    => $this->update->created_at_diff,
@@ -85,9 +88,9 @@ class IncidentUpdatedNotification extends Notification
                 'incidentName'           => $this->update->incident->name,
                 'newStatus'              => $this->update->human_status,
                 'unsubscribeText'        => trans('cachet.subscriber.unsubscribe'),
-                'unsubscribeUrl'         => cachet_route('subscribe.unsubscribe', $notifiable->verify_code),
+                'unsubscribeUrl'         => cachet_route('subscribe.unsubscribe', $manageUrl),
                 'manageSubscriptionText' => trans('cachet.subscriber.manage_subscription'),
-                'manageSubscriptionUrl'  => cachet_route('subscribe.manage', $notifiable->verify_code),
+                'manageSubscriptionUrl'  => cachet_route('subscribe.manage', $manageUrl),
             ]);
     }
 

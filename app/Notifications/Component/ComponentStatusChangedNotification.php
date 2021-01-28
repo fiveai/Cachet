@@ -17,6 +17,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 use McCool\LaravelAutoPresenter\Facades\AutoPresenter;
 
 /**
@@ -77,6 +78,8 @@ class ComponentStatusChangedNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $manageUrl = URL::signedRoute(cachet_route_generator('subscribe.manage'), ['code' => $notifiable->verify_code]);
+
         $content = trans('notifications.component.status_update.mail.content', [
             'name'       => $this->component->name,
             'old_status' => $this->component->human_status,
@@ -89,9 +92,9 @@ class ComponentStatusChangedNotification extends Notification
                 'componentName'          => $this->component->name,
                 'content'                => $content,
                 'unsubscribeText'        => trans('cachet.subscriber.unsubscribe'),
-                'unsubscribeUrl'         => cachet_route('subscribe.unsubscribe', $notifiable->verify_code),
+                'unsubscribeUrl'         => cachet_route('subscribe.unsubscribe', $manageUrl),
                 'manageSubscriptionText' => trans('cachet.subscriber.manage_subscription'),
-                'manageSubscriptionUrl'  => cachet_route('subscribe.manage', $notifiable->verify_code),
+                'manageSubscriptionUrl'  => cachet_route('subscribe.manage', $manageUrl),
             ]);
     }
 
