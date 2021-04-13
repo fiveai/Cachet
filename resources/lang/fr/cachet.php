@@ -65,17 +65,11 @@ return [
 
     // Subscriber
     'subscriber' => [
-        'subscribe'           => 'Abonnez-vous pour obtenir les dernières mises à jour.',
-        'unsubscribe'         => 'Se désabonner',
-        'button'              => 'S\'abonner',
-        'manage_subscription' => 'Gérer l\'abonnement',
+        'subscribe' => 'Abonnez-vous pour obtenir les dernières mises à jour.',
+        'button'    => 'S\'abonner',
         'manage'    => [
-            'notifications'       => 'Notifications',
-            'notifications_for'   => 'Gérer les notifications pour',
-            'no_subscriptions'    => 'Vous êtes actuellement abonné à toutes les mises à jour.',
-            'update_subscription' => 'Mettre à jour les abonnements',
-            'my_subscriptions'    => 'Vous êtes actuellement abonné aux mises à jour suivantes.',
-            'manage_at_link'      => 'Gérer vos abonnements à :link',
+            'no_subscriptions' => 'Vous êtes actuellement abonné à toutes les mises à jour.',
+            'my_subscriptions' => 'Vous êtes actuellement abonné aux mises à jour suivantes.',
         ],
         'email' => [
             'subscribe'          => 'S\'abonner aux notifications par email.',

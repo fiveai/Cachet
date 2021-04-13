@@ -12,7 +12,6 @@
 return [
 
     'dashboard' => 'Tableau de bord',
-    'writeable_settings' => 'Le répertoire des paramètres Cachet n’est pas inscriptible. Assurez-vous que <code> /bootstrap/cachet</code> est inscriptible par le serveur web.',
 
     // Incidents
     'incidents' => [
@@ -21,25 +20,6 @@ return [
         'logged'                   => '{0} Aucun incident, bon travail.|Vous avez un incident signalé.|Vous avez  <strong>:count</strong> incidents signalés.',
         'incident-create-template' => 'Créer un modèle',
         'incident-templates'       => 'Modèles d\'incident',
-        'updates'                  => [
-            'title'   => 'Mises à jour des incidents pour :incident',
-            'count'   => '{0}Aucune mise à jour|[1]Une mise à jour|[2]Deux mises à jour|[3,*]Plusieurs mises à jour',
-            'add'     => [
-                'title'   => 'Ajouter un incident',
-                'success' => 'Incident ajouté.',
-                'failure' => 'Une erreur s\'est produite en ajoutant l\'incident, veuillez réessayer.',
-            ],
-            'edit' => [
-                'title'   => 'Modifier un incident',
-                'success' => 'Incident mis à jour.',
-                'failure' => 'Une erreur s\'est produite en modifiant l\'incident, veuillez réessayer.',
-            ],
-            'delete' => [
-                'success' => 'L\'incident a été supprimé et ne sera pas affiché sur votre page de statut.',
-                'failure' => 'L\'incident n\'a pas pu être supprimé. Veuillez réessayer.',
-            ],
-        ],
-        'reported_by'              => 'Rapporté :timestamp by :user',
         'add'                      => [
             'title'   => 'Ajouter un incident',
             'success' => 'Incident ajouté.',
@@ -162,12 +142,10 @@ return [
     'subscribers' => [
         'subscribers'      => 'Abonnés',
         'description'      => 'Les abonnés recevront des notifications par e-mail lorsque des incidents sont créés ou des composants sont mis à jour.',
-        'description_disabled' => 'Pour utiliser cette fonctionnalité, vous devez autoriser les personnes à s’inscrire aux notifications.',
         'verified'         => 'Vérifié',
         'not_verified'     => 'Non vérifié',
         'subscriber'       => ':email, abonné à :date',
         'no_subscriptions' => 'Souscrire à toutes les mises à jour',
-        'global'               => 'Globalement abonnés',
         'add'              => [
             'title'   => 'Ajouter un abonné',
             'success' => 'L\'abonné a été ajouté !',
@@ -219,9 +197,6 @@ return [
         'analytics' => [
             'analytics' => 'Analytics',
         ],
-        'log' => [
-            'log' => 'Log',
-        ],
         'localization' => [
             'localization' => 'Localisation',
         ],
@@ -229,15 +204,6 @@ return [
             'customization' => 'Personnalisation',
             'header'        => 'Entête HTML personnalisé',
             'footer'        => 'Pied de page HTML personnalisé',
-        ],
-        'mail' => [
-            'mail'  => 'Mail',
-            'test'  => 'Test',
-            'email' => [
-                'subject' =>  'Notification test de Cachet',
-                'body'    => 'Ceci est une notification test.',
-            ],
-            'signature'      => 'Signature électronique HTML personnalisée',
         ],
         'security' => [
             'security'   => 'Sécurité',
@@ -260,7 +226,6 @@ return [
             'backers-title' => 'Partenaires financiers et sponsors',
             'backers'       => 'Si vous souhaitez aider des développements futurs jetez un œil à la campagne <a href="https://patreon.com/jbrooksuk" target="_blank">Cachet Patreon</a>.',
             'thank-you'     => 'Merci à chacun des :count contributeurs.',
-            'unable-to-load'=> 'Impossible de charger les détails sur les contributeurs et les sponsors.'
         ],
     ],
 

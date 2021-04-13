@@ -72,15 +72,15 @@ class NewScheduleNotification extends Notification implements ShouldQueue
     {
         $manageUrl = URL::signedRoute(cachet_route_generator('subscribe.manage'), ['code' => $notifiable->verify_code]);
 
-
+        $content = trans('notifications.schedule.new.mail.content', [
+            'name' => $this->schedule->name,
+            'date' => $this->schedule->scheduled_at_formatted,
+        ]);
 
         return (new MailMessage())
             ->subject(trans('notifications.schedule.new.mail.subject'))
             ->markdown('notifications.schedule.new', [
-                'name'                   => $this->schedule->name,
-                'dateNumber'             => $this->schedule->scheduled_at_number,
-                'date'                   => $this->schedule->scheduled_at_formatted,
-                'message'                => $this->schedule->raw_message,
+                'content'                => $content,
                 'unsubscribeText'        => trans('cachet.subscriber.unsubscribe'),
                 'unsubscribeUrl'         => cachet_route('subscribe.unsubscribe', $notifiable->verify_code),
                 'manageSubscriptionText' => trans('cachet.subscriber.manage_subscription'),
@@ -117,7 +117,6 @@ class NewScheduleNotification extends Notification implements ShouldQueue
         $content = trans('notifications.schedule.new.slack.content', [
             'name' => $this->schedule->name,
             'date' => $this->schedule->scheduled_at_formatted,
-
         ]);
 
         return (new SlackMessage())
