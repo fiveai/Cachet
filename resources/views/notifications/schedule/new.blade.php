@@ -1,11 +1,9 @@
 @component('mail::message')
-# {{ trans('notifications.schedule.new.mail.title') }}
+# {{$dateNumber}}{{$name}}
 
-{{ $content }}
+{{$message}}
 
-{{ trans('notifications.common.salutation') }}<br>
-{{ Config::get('setting.app_name') }}
-
+{{$date}}
 @include('notifications.partials.subscription')
 
 @endcomponent

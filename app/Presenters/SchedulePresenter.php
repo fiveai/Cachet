@@ -56,7 +56,15 @@ class SchedulePresenter extends BasePresenter implements Arrayable
     {
         return Markdown::convertToHtml($this->wrappedObject->message);
     }
-
+    /**
+     * Return the raw text of the message, even without Markdown.
+     *
+     * @return string
+     */
+    public function raw_message()
+    {
+        return strip_tags($this->wrappedObject->message);
+    }
     /**
      * Present diff for humans date time.
      *
@@ -132,6 +140,16 @@ class SchedulePresenter extends BasePresenter implements Arrayable
      *
      * @return string
      */
+    public function scheduled_at_number()
+    {
+        return $this->dates->make($this->wrappedObject->scheduled_at)->format('[d/m/Y]');
+    }
+    /**
+     * Present formatted date time.
+     *
+     * @return string
+     */
+
     public function scheduled_at_iso()
     {
         return $this->dates->make($this->wrappedObject->scheduled_at)->toISO8601String();
