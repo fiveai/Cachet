@@ -39,12 +39,14 @@ class Subscriber extends Model implements HasPresenter
      * @var string[]
      */
     protected $casts = [
-        'email'             => 'string',
-        'phone_number'      => 'string',
-        'slack_webhook_url' => 'string',
-        'verify_code'       => 'string',
-        'verified_at'       => 'date',
-        'global'            => 'bool',
+        'name'                   => 'string',
+        'email'                  => 'string',
+        'phone_number'           => 'string',
+        'slack_webhook_url'      => 'string',
+        'mattermost_webhook_url' => 'string',
+        'verify_code'            => 'string',
+        'verified_at'            => 'date',
+        'global'                 => 'bool',
     ];
 
     /**
@@ -53,9 +55,11 @@ class Subscriber extends Model implements HasPresenter
      * @var string[]
      */
     protected $fillable = [
+        'name',
         'email',
         'phone_number',
         'slack_webhook_url',
+        'mattermost_webhook_url',
         'verified_at',
         'global',
     ];
@@ -66,9 +70,11 @@ class Subscriber extends Model implements HasPresenter
      * @var string[]
      */
     public $rules = [
-        'email'             => 'nullable|email',
-        'phone_number'      => 'nullable|string',
-        'slack_webhook_url' => 'nullable|url',
+        'name'                   => 'string',
+        'email'                  => 'nullable|email',
+        'phone_number'           => 'nullable|string',
+        'slack_webhook_url'      => 'nullable|url',
+        'mattermost_webhook_url' => 'nullable|url',
     ];
 
     /**
@@ -129,6 +135,18 @@ class Subscriber extends Model implements HasPresenter
     }
 
     /**
+     * Scope Mattermost subscribers.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsMattermost(Builder $query)
+    {
+        return $query->whereNotNull('mattermost_webhook_url');
+    }
+
+    /**
      * Finds all verified subscriptions for a component.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -181,6 +199,16 @@ class Subscriber extends Model implements HasPresenter
     public function routeNotificationForSlack()
     {
         return $this->slack_webhook_url;
+    }
+
+    /**
+     * Route notifications for the Mattermost channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForMattermost()
+    {
+        return $this->mattermost_webhook_url;
     }
 
     /**

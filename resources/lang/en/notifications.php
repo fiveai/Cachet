@@ -23,6 +23,12 @@ return [
                 'content'  => ':name status changed from :old_status to :new_status.',
                 'action'   => 'View',
             ],
+            'mattermost' => [
+                'title'         => 'Component Status Updated',
+                'action'        => 'View',
+                'content'       => ':name status changed from :old_status to :new_status.',
+                'content_short' => 'Status changed from **:old_status** to **:new_status**.',
+            ],
             'slack' => [
                 'title'   => 'Component Status Updated',
                 'content' => ':name status changed from :old_status to :new_status.',
@@ -40,6 +46,13 @@ return [
                 'content'  => 'Incident :name was reported',
                 'action'   => 'View',
             ],
+            'mattermost' => [
+                'title'     => 'New Incident Reported',
+                'action'    => 'View',
+                'content'   => 'A new incident, :name, was reported at :app_name',
+                'component' => 'Component',
+                'status'    => 'Current Status',
+            ],
             'slack' => [
                 'title'   => 'Incident :name Reported',
                 'content' => 'A new incident was reported at :app_name',
@@ -54,6 +67,13 @@ return [
                 'content' => ':name was updated',
                 'title'   => ':name was updated to :new_status',
                 'action'  => 'View',
+            ],
+            'mattermost' => [
+                'title'   => 'Incident Updated',
+                'action'  => 'View',
+                'content' => ':name was updated to :new_status',
+                'component' => 'Component',
+                'status'    => 'Current Status',
             ],
             'slack' => [
                 'title'   => ':name Updated',
@@ -71,6 +91,14 @@ return [
                 'content' => ':name was scheduled for :date',
                 'title'   => 'A new scheduled maintenance was created.',
                 'action'  => 'View',
+            ],
+            'mattermost' => [
+                'title'   => 'New Scheduled Maintenance Created',
+                'action'  => 'View',
+                'content' => ':name was scheduled for :date',
+                'status'  => 'Status',
+                'start'   => 'Scheduled at',
+                'end'     => 'Planned completion at',
             ],
             'slack' => [
                 'title'   => 'New Schedule Created!',

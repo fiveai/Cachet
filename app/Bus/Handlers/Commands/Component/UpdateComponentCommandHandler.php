@@ -50,7 +50,7 @@ class UpdateComponentCommandHandler
         $component = $command->component;
         $originalStatus = $component->status;
 
-        if ($command->status && (int) $originalStatus !== (int) $command->status) {
+        if ((int) $originalStatus !== (int) $command->status) { // Notify even if the new status is Unknown
             event(new ComponentStatusWasChangedEvent($this->auth->user(), $component, $originalStatus, $command->status, $command->silent));
         }
 

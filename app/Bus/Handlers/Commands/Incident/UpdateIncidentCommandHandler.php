@@ -97,7 +97,7 @@ class UpdateIncidentCommandHandler
         // Update the component.
         if ($component = Component::find($command->component_id)) {
             execute(new UpdateComponentCommand(
-                Component::find($command->component_id),
+                $component,
                 null,
                 null,
                 $command->component_status,

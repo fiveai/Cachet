@@ -196,6 +196,7 @@ return [
         CachetHQ\Cachet\Providers\ConfigServiceProvider::class,
         CachetHQ\Cachet\Providers\EventServiceProvider::class,
         CachetHQ\Cachet\Providers\IntegrationServiceProvider::class,
+        CachetHQ\Cachet\Providers\MattermostChannelServiceProvider::class,
         CachetHQ\Cachet\Providers\RepositoryServiceProvider::class,
         CachetHQ\Cachet\Providers\RouteServiceProvider::class,
 
