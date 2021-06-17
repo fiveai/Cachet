@@ -161,14 +161,27 @@ return [
         'description_disabled' => 'To use this feature, you need allow people to signup for notifications.',
         'verified'             => 'Verified',
         'not_verified'         => 'Not verified',
-        'subscriber'           => ':email, subscribed :date',
+        'subscribed_at'        => 'subscribed :date',
         'no_subscriptions'     => 'Subscribed to all updates',
         'global'               => 'Globally subscribed',
+        'channel'              => [
+            'email'      => [
+                'name'        => 'Email',
+                'subscribers' => 'Email subscribers',
+                'description' => 'Email subscribers will receive email updates when incidents are created or components are updated.',
+            ],
+            'mattermost' => [
+                'name'        => 'Mattermost',
+                'subscribers' => 'Mattermost subscribers',
+                'description' => 'Mattermost subscribers are bots that will post updates on a Mattermost channel when incidents are created or components are updated.',
+            ],
+        ],
         'add'                  => [
-            'title'   => 'Add a new subscriber',
-            'success' => 'Subscriber has been added!',
-            'failure' => 'Something went wrong adding the subscriber, please try again.',
-            'help'    => 'Enter each subscriber on a new line.',
+            'title'        => 'Add a new subscriber',
+            'success'      => 'Subscriber has been added!',
+            'failure'      => 'Something went wrong adding the subscriber, please try again.',
+            'name_exists'  => 'A subscriber with the same name already exists.',
+            'email_exists' => 'A subscriber with the same email or name already exists.',
         ],
         'edit' => [
             'title'   => 'Update subscriber',

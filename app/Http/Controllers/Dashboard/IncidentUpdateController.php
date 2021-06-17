@@ -118,12 +118,8 @@ class IncidentUpdateController extends Controller
                 ->withErrors($e->getMessageBag());
         }
 
-        if ($incident->component) {
-            $incident->component->update(['status' => Binput::get('component_status')]);
-        }
-
         return cachet_redirect('dashboard.incidents')
-            ->withSuccess(sprintf('%s %s', trans('dashboard.notifications.awesome'), trans('dashboard.incidents.updates.success')));
+            ->withSuccess(sprintf('%s %s', trans('dashboard.notifications.awesome'), trans('dashboard.incidents.updates.add.success')));
     }
 
     /**

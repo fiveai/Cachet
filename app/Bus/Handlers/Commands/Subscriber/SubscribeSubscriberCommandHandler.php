@@ -33,15 +33,23 @@ class SubscribeSubscriberCommandHandler
      *
      * @param \CachetHQ\Cachet\Bus\Commands\Subscriber\SubscribeSubscriberCommand $command
      *
-     * @return \CachetHQ\Cachet\Models\Subscriber
+     * @return boolean (true if created else false)
      */
     public function handle(SubscribeSubscriberCommand $command)
     {
-        if ($subscriber = Subscriber::where('email', '=', $command->email)->first()) {
-            return $subscriber;
+        if (Subscriber::where('name', '=', $command->name)->first()) {
+            return false;
         }
 
-        $subscriber = Subscriber::firstOrCreate(['email' => $command->email]);
+        if ($command->email and Subscriber::where('email', '=', $command->email)->first()) {
+            return false;
+        }
+
+        $subscriber = Subscriber::create([
+            'name' => $command->name,
+            'email' => $command->email,
+            'mattermost_webhook_url' => $command->webhook_url
+        ]);
 
         // Decide what to subscribe the subscriber to.
         if ($subscriptions = $command->subscriptions) {
@@ -67,6 +75,6 @@ class SubscribeSubscriberCommandHandler
 
         $subscriber->load('subscriptions');
 
-        return $subscriber;
+        return true;
     }
 }

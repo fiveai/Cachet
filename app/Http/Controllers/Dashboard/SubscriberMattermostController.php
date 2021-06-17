@@ -22,7 +22,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\MessageBag;
 
-class SubscriberController extends Controller
+class SubscriberMattermostController extends Controller
 {
     /**
      * Array of sub-menu items.
@@ -60,64 +60,62 @@ class SubscriberController extends Controller
     }
 
     /**
-     * Shows the subscribers view (for emails).
+     * Shows the subscribers view (for Mattermost channels).
      *
      * @return \Illuminate\View\View
      */
-    public function showSubscribers()
+    public function showMattermostSubscribers()
     {
-        $this->subMenu['email']['active'] = true;
+        $this->subMenu['mattermost']['active'] = true;
 
-        return View::make('dashboard.subscribers.index')
+        return View::make('dashboard.subscribers.mattermost.index')
             ->withPageTitle(trans('dashboard.subscribers.channel.email.subscribers').' - '.trans('dashboard.dashboard'))
-            ->withSubscribers(Subscriber::whereNotNull('email')->with('subscriptions.component')->get())
+            ->withSubscribers(Subscriber::whereNotNull('mattermost_webhook_url')->with('subscriptions.component')->get())
             ->withSubMenu($this->subMenu);
     }
 
     /**
-     * Shows the add subscriber view (for emails).
+     * Shows the add subscriber view (for Mattermost channels).
      *
      * @return \Illuminate\View\View
      */
-    public function showAddSubscriber()
+    public function showAddMattermostSubscriber()
     {
-        return View::make('dashboard.subscribers.add')
+        return View::make('dashboard.subscribers.mattermost.add')
             ->withPageTitle(trans('dashboard.subscribers.add.title').' - '.trans('dashboard.dashboard'));
     }
 
     /**
-     * Creates a new (email) subscriber.
+     * Creates a new Mattermost subscriber.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createSubscriberAction()
+    public function createMattermostSubscriberAction()
     {
-        $verified = app(Repository::class)->get('setting.skip_subscriber_verification');
-
         $subscriberData = Binput::get('subscriber');
         try {
             $created = execute(new SubscribeSubscriberCommand(
-                $subscriberData['name'],  // Name
-                $subscriberData['email'], // Email
-                null,                     // Webhook url
-                $verified                 // Verified
+                $subscriberData['name'], // Name
+                null,                    // Email
+                $subscriberData['hook'], // Webhook url
+                true                     // Verified
             ));
             if (!$created) {
-                throw new ValidationException(new MessageBag([trans('dashboard.subscribers.add.email_exists')]));
+                throw new ValidationException(new MessageBag([trans('dashboard.subscribers.add.name_exists')]));
             }
         } catch (ValidationException $e) {
-            return cachet_redirect('dashboard.subscribers.create')
+            return cachet_redirect('dashboard.subscribers.mattermost.create')
                 ->withInput(Binput::all())
                 ->withTitle(sprintf('%s %s', trans('dashboard.notifications.whoops'), trans('dashboard.subscribers.add.failure')))
                 ->withErrors($e->getMessageBag());
         }
 
-        return cachet_redirect('dashboard.subscribers')
+        return cachet_redirect('dashboard.subscribers.mattermost')
             ->withSuccess(sprintf('%s %s', trans('dashboard.notifications.awesome'), trans('dashboard.subscribers.add.success')));
     }
 
     /**
-     * Deletes a subscriber.
+     * Deletes a Mattermost subscriber.
      *
      * @param \CachetHQ\Cachet\Models\Subscriber $subscriber
      *
@@ -125,10 +123,10 @@ class SubscriberController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deleteSubscriberAction(Subscriber $subscriber)
+    public function deleteMattermostSubscriberAction(Subscriber $subscriber)
     {
         execute(new UnsubscribeSubscriberCommand($subscriber));
 
-        return cachet_redirect('dashboard.subscribers');
+        return cachet_redirect('dashboard.subscribers.mattermost');
     }
 }

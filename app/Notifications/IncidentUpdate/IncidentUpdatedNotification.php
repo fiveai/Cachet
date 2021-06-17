@@ -18,6 +18,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use McCool\LaravelAutoPresenter\Facades\AutoPresenter;
 
@@ -58,7 +59,7 @@ class IncidentUpdatedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'nexmo', 'slack'];
+        return ['mail', 'nexmo', 'slack', 'mattermost'];
     }
 
     /**
@@ -149,5 +150,61 @@ class IncidentUpdatedNotification extends Notification
                                    ]))
                                    ->footer(trans('cachet.subscriber.unsubscribe', ['link' => cachet_route('subscribe.unsubscribe', $notifiable->verify_code)]));
                     });
+    }
+
+    /**
+     * Get the Mattermost representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return an array meant to be converted to a json payload
+     */
+    public function toMattermost($notifiable)
+    {
+        if ($this->update->status === Incident::FIXED) {
+            $status_color = '#00D11C'; // Green
+        } elseif ($this->update->status === Incident::WATCHED) {
+            $status_color = '#FF8000'; // Orange
+        } else {
+            $status_color = '#FF4400'; // Red
+        }
+
+        $component_name = '';
+        $component_status = '';
+        if ($this->update->incident->component) {
+            $component_name = $this->update->incident->component->name;
+            $component_status = trans("cachet.components.status.{$this->update->incident->component->status}");
+        }
+
+
+        $final_data = [
+            'text'        => trans('notifications.incident.update.mattermost.title'),
+            'attachments' => [
+                array_filter([
+                    'fallback'    => trans('notifications.incident.update.mattermost.content', ['name' => $this->update->incident->name, 'new_status' => $this->update->human_status]),
+                    'color'       => $status_color,
+                    'title'       => '['.$this->update->human_status.'] '.$this->update->incident->name,
+                    'text'        => $this->update->message."\n[".trans('notifications.incident.update.mattermost.action')."](".cachet_route('incident', [$this->update->incident]).")",
+                    'author_name' => Config::get('setting.app_name'),
+                    'author_icon' => asset('img/cachet-icon.png'),
+                    'footer'      => "#{$this->update->id}",
+                    'fields' => array_filter([
+                        [
+                            'short' => true,
+                            'title' => trans('notifications.incident.update.mattermost.component'),
+                            'value' => $component_name,
+                        ],
+                        [
+                            'short' => true,
+                            'title' => trans('notifications.incident.update.mattermost.status'),
+                            'value' => $component_status,
+                        ],
+                    ],
+                    function($array) { return !empty($array['value']); }),
+                ])
+            ],
+        ];
+
+        return $final_data;
     }
 }
