@@ -78,7 +78,7 @@ class CreateIncidentUpdateCommandHandler
             []
         ));
 
-        event(new IncidentUpdateWasReportedEvent($this->auth->user(), $update));
+        event(new IncidentUpdateWasReportedEvent($this->auth->user(), $update, $command->notify));
 
         return $update;
     }

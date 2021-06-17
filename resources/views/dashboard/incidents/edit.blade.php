@@ -13,11 +13,6 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12">
-            @if(!$notificationsEnabled)
-                <div class="alert alert-info" role="alert">
-                    {{ trans('forms.incidents.notify_disabled') }}
-                </div>
-            @endif
             @include('partials.errors')
             <form class="form-vertical" name="IncidentForm" role="form" method="POST" autocomplete="off">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">

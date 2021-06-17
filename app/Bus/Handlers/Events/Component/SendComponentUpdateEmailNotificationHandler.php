@@ -58,7 +58,7 @@ class SendComponentUpdateEmailNotificationHandler
         $component = $event->component;
 
         // If we're silent or the notifications are suppressed don't send this.
-        if ($event->silent || !$this->system->canNotifySubscribers()) {
+        if ($event->silent || !$this->system->canNotifySubscribers() || $this->system->shouldDisableNotifications()) {
             return;
         }
 

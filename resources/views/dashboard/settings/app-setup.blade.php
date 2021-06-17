@@ -80,9 +80,20 @@
                             <div class="col-xs-12">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="hidden" value="0" name="suppress_notifications_in_maintenance">
-                                        <input type="checkbox" value="1" name="suppress_notifications_in_maintenance" {{ Config::get('setting.suppress_notifications_in_maintenance') ? 'checked' : null }}>
-                                        {{ trans('forms.settings.app-setup.suppress_notifications_in_maintenance') }}
+                                        <input type="hidden" value="0" name="enable_notifications">
+                                        <input type="checkbox" value="1" name="enable_notifications" {{ Config::get('setting.enable_notifications') ? 'checked' : null }}>
+                                        {{ trans('forms.settings.app-setup.enable_notifications') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" value="0" name="disable_notifications_in_maintenance">
+                                        <input type="checkbox" value="1" name="disable_notifications_in_maintenance" {{ Config::get('setting.disable_notifications_in_maintenance') ? 'checked' : null }}>
+                                        {{ trans('forms.settings.app-setup.disable_notifications_in_maintenance') }}
                                     </label>
                                 </div>
                             </div>

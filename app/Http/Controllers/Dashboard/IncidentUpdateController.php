@@ -109,6 +109,7 @@ class IncidentUpdateController extends Controller
                 Binput::get('message'),
                 Binput::get('component_id'),
                 Binput::get('component_status'),
+                Binput::get('notify'),
                 $this->auth->user()
             ));
         } catch (ValidationException $e) {

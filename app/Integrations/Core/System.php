@@ -111,12 +111,22 @@ class System implements SystemContract
      */
     public function canNotifySubscribers()
     {
+        return $this->config->get('setting.enable_notifications');
+    }
+
+    /**
+     * Determine if Cachet should disable by default the checkbox to notify subscribers.
+     *
+     * @return bool
+     */
+    public function shouldDisableNotifications()
+    {
         $maintenancePeriods = Schedule::inProgress()->count();
         if ($maintenancePeriods === 0) {
-            return true;
+            return false;
         }
 
-        return !$this->config->get('setting.suppress_notifications_in_maintenance');
+        return $this->config->get('setting.disable_notifications_in_maintenance');
     }
 
     /**

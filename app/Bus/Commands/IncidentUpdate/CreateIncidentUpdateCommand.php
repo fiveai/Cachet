@@ -54,6 +54,14 @@ final class CreateIncidentUpdateCommand
      * @var int
      */
     public $component_status;
+
+    /**
+     * Whether to notify about the update or not.
+     *
+     * @var bool
+     */
+    public $notify;
+
     /**
      * The user.
      *
@@ -72,6 +80,7 @@ final class CreateIncidentUpdateCommand
         'message'          => 'required|string',
         'component_id'     => 'nullable|required_with:component_status|int',
         'component_status' => 'nullable|required_with:component_id|int|min:0|max:4',
+        'notify'           => 'nullable|bool',
         'user'             => 'required',
     ];
 
@@ -85,13 +94,14 @@ final class CreateIncidentUpdateCommand
      *
      * @return void
      */
-    public function __construct(Incident $incident, $status, $message, $component_id, $component_status, User $user)
+    public function __construct(Incident $incident, $status, $message, $component_id, $component_status, $notify, User $user)
     {
         $this->incident = $incident;
         $this->status = $status;
         $this->message = $message;
         $this->component_id = $component_id;
         $this->component_status = $component_status;
+        $this->notify = $notify;
         $this->user = $user;
     }
 }
