@@ -33,6 +33,13 @@ interface System
     public function canNotifySubscribers();
 
     /**
+     * Determine if Cachet should disable by default the checkbox to notify subscribers.
+     *
+     * @return bool
+     */
+    public function shouldDisableNotifications();
+
+    /**
      * Get the cachet version.
      *
      * @return string

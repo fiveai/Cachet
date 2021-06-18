@@ -94,6 +94,7 @@ class IncidentController extends Controller
             ->withComponentsInGroups(ComponentGroup::with('components')->get())
             ->withComponentsOutGroups(Component::where('group_id', '=', 0)->get())
             ->withNotificationsEnabled($this->system->canNotifySubscribers())
+            ->withNoNotifications($this->system->shouldDisableNotifications())
             ->withIncidentTemplates(IncidentTemplate::all());
     }
 
@@ -233,8 +234,7 @@ class IncidentController extends Controller
             ->withPageTitle(trans('dashboard.incidents.edit.title').' - '.trans('dashboard.dashboard'))
             ->withIncident($incident)
             ->withComponentsInGroups(ComponentGroup::with('components')->get())
-            ->withComponentsOutGroups(Component::where('group_id', '=', 0)->get())
-            ->withNotificationsEnabled($this->system->canNotifySubscribers());
+            ->withComponentsOutGroups(Component::where('group_id', '=', 0)->get());
     }
 
     /**

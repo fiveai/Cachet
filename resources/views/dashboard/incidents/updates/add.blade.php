@@ -101,6 +101,15 @@
                                 <textarea name="message" class="form-control autosize" rows="5" required>{{ Binput::old('message') }}</textarea>
                             </div>
                         </div>
+                        @if($notificationsEnabled)
+                        <input type="hidden" name="notify" value="0">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="notify" value="1" checked="{{ Binput::old('notify', 'checked') }}">
+                                {{ trans('forms.incidents.notify_subscribers') }}
+                            </label>
+                        </div>
+                        @endif
                     </fieldset>
 
                     <input type="hidden" name="incident_id" value="{{ $incident->id }}">

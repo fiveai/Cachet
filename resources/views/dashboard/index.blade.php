@@ -18,6 +18,12 @@
                 </div>
             </div>
 
+            @if($noNotifications)
+            <div class="alert alert-info" role="alert">
+                {{ trans('dashboard.notify_disabled') }}
+            </div>
+            @endif
+
             <div class="row">
               <div class="col-md-12">
                   <div class="section-components no-select">

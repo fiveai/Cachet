@@ -12,6 +12,7 @@
 namespace CachetHQ\Cachet\Http\Controllers\Dashboard;
 
 use CachetHQ\Cachet\Bus\Commands\User\WelcomeUserCommand;
+use CachetHQ\Cachet\Integrations\Contracts\System;
 use CachetHQ\Cachet\Models\Component;
 use CachetHQ\Cachet\Models\ComponentGroup;
 use CachetHQ\Cachet\Models\Incident;
@@ -52,17 +53,26 @@ class DashboardController extends Controller
     protected $guard;
 
     /**
+     * The system instance.
+     *
+     * @var \CachetHQ\Cachet\Integrations\Contracts\System
+     */
+    protected $system;
+
+    /**
      * Creates a new dashboard controller instance.
      *
-     * @param \Illuminate\Contracts\Auth\Guard             $guard
+     * @param \Illuminate\Contracts\Auth\Guard               $guard
+     * @param \CachetHQ\Cachet\Integrations\Contracts\System $system
      *
      * @return void
      */
-    public function __construct(Guard $guard)
+    public function __construct(Guard $guard, System $system)
     {
         $this->guard = $guard;
         $this->startDate = new Date();
         $this->dateTimeZone = Config::get('cachet.timezone');
+        $this->system = $system;
     }
 
     /**
@@ -101,7 +111,8 @@ class DashboardController extends Controller
             ->withSubscribers($subscribers)
             ->withComponentGroups($componentGroups)
             ->withUngroupedComponents($ungroupedComponents)
-            ->withWelcomeUser($welcomeUser);
+            ->withWelcomeUser($welcomeUser)
+            ->withNoNotifications($this->system->shouldDisableNotifications());
     }
 
     /**

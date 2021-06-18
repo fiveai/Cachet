@@ -13,7 +13,7 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12">
-            @if(!$notificationsEnabled)
+            @if($noNotifications)
             <div class="alert alert-info" role="alert">
                 {{ trans('forms.incidents.notify_disabled') }}
             </div>
@@ -124,7 +124,7 @@
                         <input type="hidden" name="notify" value="0">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="notify" value="1" checked="{{ Binput::old('notify', 'checked') }}">
+                                <input type="checkbox" name="notify" value="1" @if(!$noNotifications) checked @endif>
                                 {{ trans('forms.incidents.notify_subscribers') }}
                             </label>
                         </div>

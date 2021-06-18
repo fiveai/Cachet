@@ -38,12 +38,12 @@ return [
     | Suppress notifications while in maintenance
     |--------------------------------------------------------------------------
     |
-    | Whether to suppress notification channels if an issue is created during
+    | Whether to disable by default notifications if an issue is created during
     | planned or in-progress maintenance periods.
     |
     */
 
-    'suppress_notifications_in_maintenance' => true,
+    'disable_notifications_in_maintenance' => true,
 
     /*
     |--------------------------------------------------------------------------

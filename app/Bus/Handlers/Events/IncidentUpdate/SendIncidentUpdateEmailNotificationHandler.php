@@ -55,6 +55,10 @@ class SendIncidentUpdateEmailNotificationHandler
      */
     public function handle(IncidentUpdateWasReportedEvent $event)
     {
+        if (!$event->notify || !$this->system->canNotifySubscribers()) {
+            return;
+        }
+
         $update = $event->update;
         $incident = $update->incident;
 

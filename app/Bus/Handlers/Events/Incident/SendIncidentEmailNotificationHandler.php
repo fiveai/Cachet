@@ -58,7 +58,7 @@ class SendIncidentEmailNotificationHandler
         $incident = $event->incident;
 
         if (!$event->notify || !$this->system->canNotifySubscribers()) {
-            return false;
+            return;
         }
 
         // Only send emails for public incidents.

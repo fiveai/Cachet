@@ -13,6 +13,7 @@ return [
 
     'dashboard'          => 'Dashboard',
     'writeable_settings' => 'The Cachet settings directory is not writeable. Please make sure that <code>./bootstrap/cachet</code> is writeable by the web server.',
+    'notify_disabled'    => 'Due to scheduled maintenance, notifications about status updates of components are disabled.',
 
     // Incidents
     'incidents' => [
