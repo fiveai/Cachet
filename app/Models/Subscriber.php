@@ -47,6 +47,8 @@ class Subscriber extends Model implements HasPresenter
         'verify_code'            => 'string',
         'verified_at'            => 'date',
         'global'                 => 'bool',
+        'component_status'       => 'bool',
+        'maintenance_schedules'  => 'bool',
     ];
 
     /**
@@ -62,6 +64,8 @@ class Subscriber extends Model implements HasPresenter
         'mattermost_webhook_url',
         'verified_at',
         'global',
+        'component_status',
+        'maintenance_schedules',
     ];
 
     /**
@@ -132,6 +136,30 @@ class Subscriber extends Model implements HasPresenter
     public function scopeIsGlobal(Builder $query)
     {
         return $query->where('global', '=', true);
+    }
+
+    /**
+     * Scope subscribers subscribed to status updates.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsSubscribedToStatus(Builder $query)
+    {
+        return $query->where('component_status', '=', true);
+    }
+
+    /**
+     * Scope subscribers subscribed to maintenance schedules.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsSubscribedToSchedules(Builder $query)
+    {
+        return $query->where('maintenance_schedules', '=', true);
     }
 
     /**

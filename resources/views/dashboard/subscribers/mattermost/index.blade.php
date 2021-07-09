@@ -24,16 +24,19 @@
                 <div class="striped-list">
                     @foreach($subscribers as $subscriber)
                     <div class="row striped-list-item">
-                        <div class="col-xs-3">
+                        <div class="col-xs-2">
                             <p>{{ $subscriber->name }}</p>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-2">
                             <p>{{ trans('dashboard.subscribers.subscribed_at', ['date' => $subscriber->created_at]) }}</p>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-2">
                             @if($subscriber->global)
                             <p>{{ trans('dashboard.subscribers.global') }}</p>
-                            @elseif($subscriber->subscriptions->isNotEmpty())
+                            @endif
+                        </div>
+                        <div class="col-xs-2">
+                            @if($subscriber->subscriptions->isNotEmpty())
                             {!! $subscriber->subscriptions->map(function ($subscription) {
                                 return sprintf('<span class="label label-primary">%s</span>', $subscription->component->name);
                             })->implode(' ') !!}
@@ -41,7 +44,12 @@
                             <p>{{ trans('dashboard.subscribers.no_subscriptions') }}</p>
                             @endif
                         </div>
-                        <div class="col-xs-3 text-right">
+                        <div class="col-xs-2">
+                            @if($subscriber->maintenance_schedules)
+                                <p>{{ trans('dashboard.subscribers.maintenances') }}</p>
+                            @endif
+                        </div>
+                        <div class="col-xs-2 text-right">
                             <a href="{{ URL::signedRoute(cachet_route_generator('subscribe.manage'), ['code' => $subscriber->verify_code]) }}" target="_blank" class="btn btn-success">{{ trans('forms.edit') }}</a>
                             <a href="{{ cachet_route('dashboard.subscribers.mattermost.delete', [$subscriber->id], 'delete') }}" class="btn btn-danger confirm-action" data-method='DELETE'>{{ trans('forms.delete') }}</a>
                         </div>

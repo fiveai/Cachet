@@ -162,8 +162,9 @@ return [
         'verified'             => 'Verified',
         'not_verified'         => 'Not verified',
         'subscribed_at'        => 'subscribed :date',
-        'no_subscriptions'     => 'Subscribed to all updates',
-        'global'               => 'Globally subscribed',
+        'no_subscriptions'     => 'No subscription',
+        'global'               => 'Subscribed to all incidents',
+        'maintenances'         => 'Subscribed to schedules',
         'channel'              => [
             'email'      => [
                 'name'        => 'Email',

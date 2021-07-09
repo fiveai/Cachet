@@ -88,6 +88,9 @@ return [
             'update_subscription' => 'Update Subscription',
             'my_subscriptions'    => 'You\'re currently subscribed to the following updates.',
             'manage_at_link'      => 'Manage your subscriptions at :link',
+            'component_status'    => 'Subscribe to component status update',
+            'maintenances'        => 'Subscribe to maintenances schedules',
+            'all_incidents'       => 'Subscribe to component-independent incidents',
         ],
         'email' => [
             'manage_subscription' => 'We\'ve sent you an email, please click the link to manage your subscription',

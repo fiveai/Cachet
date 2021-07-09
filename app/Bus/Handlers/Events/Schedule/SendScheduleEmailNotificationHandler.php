@@ -57,8 +57,8 @@ class SendScheduleEmailNotificationHandler
             return false;
         }
 
-        // Notify all global subscribers.
-        $globalSubscribers = $this->subscriber->isVerified()->isGlobal()->get();
-        Notification::send($globalSubscribers, new NewScheduleNotification($schedule));
+        // Notify all subscribers subscribed to schedules.
+        $scheduleSubscribers = $this->subscriber->isVerified()->isSubscribedToSchedules()->get();
+        Notification::send($scheduleSubscribers, new NewScheduleNotification($schedule));
     }
 }
