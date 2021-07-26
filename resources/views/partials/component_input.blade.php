@@ -5,7 +5,7 @@
                      id="component-{{ $component->id }}"
                    name="subscriptions[]"
                   value="{{ $component->id }}"
-            @if (in_array($component->id, $subscriptions) || $subscriber->global)
+            @if (in_array($component->id, $subscriptions))
                 checked="checked"
             @endif />
           {!! $component->name !!}

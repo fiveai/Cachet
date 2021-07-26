@@ -47,6 +47,11 @@ class SubscriberRoutes
                 'uses' => 'SubscriberController@showSubscribers',
             ]);
 
+            $router->get('mattermost', [
+                'as'   => 'get:dashboard.subscribers.mattermost',
+                'uses' => 'SubscriberMattermostController@showMattermostSubscribers',
+            ]);
+
             $router->get('create', [
                 'as'   => 'get:dashboard.subscribers.create',
                 'uses' => 'SubscriberController@showAddSubscriber',
@@ -56,9 +61,23 @@ class SubscriberRoutes
                 'uses' => 'SubscriberController@createSubscriberAction',
             ]);
 
+            $router->get('mattermost/create', [
+                'as'   => 'get:dashboard.subscribers.mattermost.create',
+                'uses' => 'SubscriberMattermostController@showAddMattermostSubscriber',
+            ]);
+            $router->post('mattermost/create', [
+                'as'   => 'post:dashboard.subscribers.mattermost.create',
+                'uses' => 'SubscriberMattermostController@createMattermostSubscriberAction',
+            ]);
+
             $router->delete('{subscriber}/delete', [
                 'as'   => 'delete:dashboard.subscribers.delete',
                 'uses' => 'SubscriberController@deleteSubscriberAction',
+            ]);
+
+            $router->delete('{subscriber}/mattermost/delete', [
+                'as'   => 'delete:dashboard.subscribers.mattermost.delete',
+                'uses' => 'SubscriberMattermostController@deleteMattermostSubscriberAction',
             ]);
         });
     }

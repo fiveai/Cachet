@@ -225,6 +225,20 @@ return [
         ],
     ],
 
+    'channel' => [
+        'mattermost' => [
+            'hook'      => 'Mattermost webhook',
+            'hook-help' => 'URL',
+            'name'      => 'Name',
+            'name-help' => 'Identifier of the subscriber (e.g. channel name)',
+        ],
+        'email' => [
+            'email'     => 'Email',
+            'name'      => 'Name',
+            'name-help' => 'Identifier of the subscriber (e.g. username or real name)',
+        ],
+    ],
+
     'general' => [
         'timezone' => 'Select Timezone',
     ],

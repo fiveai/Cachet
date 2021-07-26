@@ -19,11 +19,25 @@ namespace CachetHQ\Cachet\Bus\Commands\Subscriber;
 final class SubscribeSubscriberCommand
 {
     /**
+     * The subscriber name (identifier).
+     *
+     * @var string
+     */
+    public $name;
+
+    /**
      * The subscriber email.
      *
      * @var string
      */
     public $email;
+
+    /**
+     * The url of the Mattermost webhook.
+     *
+     * @var string
+     */
+    public $webhook_url;
 
     /**
      * The subscriber auto verification.
@@ -45,21 +59,26 @@ final class SubscribeSubscriberCommand
      * @var array
      */
     public $rules = [
-        'email' => 'required|email',
+        'email'       => 'nullable|email',
+        'webhook_url' => 'nullable|url',
     ];
 
     /**
      * Create a new subscribe subscriber command instance.
      *
+     * @param string     $name
      * @param string     $email
+     * @param string     $webhook_url
      * @param bool       $verified
      * @param array|null $subscriptions
      *
      * @return void
      */
-    public function __construct($email, $verified = false, $subscriptions = null)
+    public function __construct($name, $email, $webhook_url, $verified = false, $subscriptions = null)
     {
+        $this->name = $name;
         $this->email = $email;
+        $this->webhook_url = $webhook_url;
         $this->verified = $verified;
         $this->subscriptions = $subscriptions;
     }

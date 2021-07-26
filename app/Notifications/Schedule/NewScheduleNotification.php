@@ -13,11 +13,11 @@ namespace CachetHQ\Cachet\Notifications\Schedule;
 
 use CachetHQ\Cachet\Models\Schedule;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use McCool\LaravelAutoPresenter\Facades\AutoPresenter;
 
@@ -26,7 +26,7 @@ use McCool\LaravelAutoPresenter\Facades\AutoPresenter;
  *
  * @author James Brooks <james@alt-three.com>
  */
-class NewScheduleNotification extends Notification implements ShouldQueue
+class NewScheduleNotification extends Notification
 {
     use Queueable;
 
@@ -58,7 +58,7 @@ class NewScheduleNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'nexmo', 'slack'];
+        return ['mail', 'nexmo', 'slack', 'mattermost'];
     }
 
     /**
@@ -129,5 +129,54 @@ class NewScheduleNotification extends Notification implements ShouldQueue
                                        'Status' => $this->schedule->human_status,
                                    ]));
                     });
+    }
+
+    /**
+     * Get the Mattermost representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return an array meant to be converted to a json payload
+     */
+    public function toMattermost($notifiable)
+    {
+        $fallback_content = trans('notifications.schedule.new.mattermost.content', [
+            'name' => $this->schedule->name,
+            'date' => $this->schedule->scheduled_at_formatted,
+        ]);
+
+        $final_data = [
+            'text'        => trans('notifications.schedule.new.mattermost.title'),
+            'attachments' => [
+                array_filter([
+                    'fallback'    => $fallback_content,
+                    'title'       => $this->schedule->name,
+                    'text'        => $this->schedule->message,
+                    'author_name' => Config::get('setting.app_name'),
+                    'author_icon' => asset('img/cachet-icon.png'),
+                    'footer'      => "#{$this->schedule->id}",
+                    'fields' => array_filter([
+                        [
+                            'short' => false,
+                            'title' => trans('notifications.schedule.new.mattermost.status'),
+                            'value' => $this->schedule->human_status,
+                        ],
+                        [
+                            'short' => true,
+                            'title' => trans('notifications.schedule.new.mattermost.start'),
+                            'value' => $this->schedule->scheduled_at_formatted,
+                        ],
+                        [
+                            'short' => true,
+                            'title' => trans('notifications.schedule.new.mattermost.end'),
+                            'value' => $this->schedule->completed_at_formatted,
+                        ],
+                    ],
+                    function($array) { return !empty($array['value']); }),
+                ])
+            ],
+        ];
+
+        return $final_data;
     }
 }

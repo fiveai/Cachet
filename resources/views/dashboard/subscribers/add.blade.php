@@ -6,7 +6,7 @@
         <i class="ion ion-navicon"></i>
     </div>
     <span class="uppercase">
-        <i class="ion ion-ios-email-outline"></i> {{ trans('dashboard.subscribers.subscribers') }}
+        <i class="ion ion-ios-email-outline"></i> {{ trans('dashboard.subscribers.channel.email.subscribers') }}
     </span>
 </div>
 <div class="content-wrapper">
@@ -17,9 +17,12 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <fieldset>
             <div class="form-group">
-                <label>{{ trans('forms.user.email') }}</label>
-                <textarea rows="5" class="form-control" name="email" required placeholder="{{ trans('forms.user.email') }}">{{ Binput::old('email') }}</textarea>
-                <span class="help-block">{{ trans('dashboard.subscribers.add.help') }}</span>
+                <label for="subscriber-name">{{ trans('forms.channel.email.name') }}</label>
+                <input type="text" class="form-control" name="subscriber[name]" id="subscriber-name" required placeholder="{{ trans('forms.channel.email.name-help') }}">
+            </div>
+            <div class="form-group">
+                <label for="subscriber-email">{{ trans('forms.channel.email.email') }}</label>
+                <input type="email" class="form-control" name="subscriber[email]" id="subscriber-email">
             </div>
             </fieldset>
 

@@ -212,7 +212,13 @@ class SubscribeController extends Controller
         }
 
         try {
-            execute(new UpdateSubscriberSubscriptionCommand($subscriber, Binput::get('subscriptions')));
+            execute(new UpdateSubscriberSubscriptionCommand(
+                $subscriber,
+                Binput::get('subscriptions'),
+                Binput::get('subscribe-status'),
+                Binput::get('subscribe-schedules'),
+                Binput::get('subscribe-incidents'),
+            ));
         } catch (ValidationException $e) {
             return redirect()->to(URL::signedRoute(cachet_route_generator('subscribe.manage'), ['code' => $subscriber->verify_code]))
                 ->withInput(Binput::all())

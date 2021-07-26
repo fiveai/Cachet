@@ -42,7 +42,9 @@ class UpdateSubscriberSubscriptionCommandHandler
             return in_array($item->id, $subscriptions);
         });
 
-        $subscriber->global = ($updateSubscriptions->count() === $components->count());
+        $subscriber->global = $command->to_all_incidents;
+        $subscriber->component_status = $command->to_component_status;
+        $subscriber->maintenance_schedules = $command->to_maintenance_schedules;
 
         $subscriber->subscriptions()->delete();
 

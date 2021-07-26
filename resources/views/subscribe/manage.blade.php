@@ -14,7 +14,7 @@
     <div class="col-xs-12 col-lg-offset-2 col-lg-8">
         <div class="text-center margin-bottom">
             <h1>{{ $appName }} {{ trans('cachet.subscriber.manage.notifications') }}</h1>
-            <p>{{ trans('cachet.subscriber.manage.notifications_for') }} <strong>{{ $subscriber->email }}</strong></p>
+            <p>{{ trans('cachet.subscriber.manage.notifications_for') }} <strong>{{ $subscriber->name }}</strong></p>
         </div>
         <form action="{{ URL::signedRoute(cachet_route_generator('subscribe.manage'), ['code' => $subscriber->verify_code]) }}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -58,6 +58,42 @@
             @else
             <p>{{ trans('cachet.subscriber.manage.no_subscriptions') }}</p>
             @endif
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="hidden" name="subscribe-status" value="0">
+                            <input type="checkbox" name="subscribe-status" value="1" {{ $subscriber->component_status ? 'checked' : null }}>
+                            {{ trans('cachet.subscriber.manage.component_status') }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="hidden" name="subscribe-schedules" value="0">
+                            <input type="checkbox" name="subscribe-schedules" value="1" {{ $subscriber->maintenance_schedules ? 'checked' : null }}>
+                            {{ trans('cachet.subscriber.manage.maintenances') }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="hidden" name="subscribe-incidents" value="0">
+                            <input type="checkbox" name="subscribe-incidents" value="1" {{ $subscriber->global ? 'checked' : null }}>
+                            {{ trans('cachet.subscriber.manage.all_incidents') }}
+                        </label>
+                    </div>
+                </div>
+            </div>
 
             <div class="text-right">
                 <button type="submit" class="btn btn-success">{{ trans('cachet.subscriber.manage.update_subscription') }}</button>

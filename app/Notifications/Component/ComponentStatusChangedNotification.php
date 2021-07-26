@@ -17,6 +17,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use McCool\LaravelAutoPresenter\Facades\AutoPresenter;
 
@@ -66,7 +67,7 @@ class ComponentStatusChangedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'nexmo', 'slack'];
+        return ['mail', 'nexmo', 'slack', 'mattermost'];
     }
 
     /**
@@ -154,5 +155,48 @@ class ComponentStatusChangedNotification extends Notification
                                    ]))
                                    ->footer(trans('cachet.subscriber.unsubscribe', ['link' => cachet_route('subscribe.unsubscribe', $notifiable->verify_code)]));
                     });
+    }
+
+    /**
+     * Get the Mattermost representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return an array meant to be converted to a json payload
+     */
+    public function toMattermost($notifiable)
+    {
+        $fallback_content = trans('notifications.component.status_update.mattermost.content', [
+            'name' => $this->component->name,
+            'old_status' => $this->component->human_status,
+            'new_status' => trans("cachet.components.status.{$this->status}"),
+        ]);
+
+        switch ($this->status) {
+            case 0: $status_color = '#BABABA'; break; // Grey   (Unknown)
+            case 1: $status_color = '#00D11C'; break; // Green  (Operational)
+            case 2: $status_color = '#FFC524'; break; // Yellow (Performance Issues)
+            case 3: $status_color = '#FF8000'; break; // Orange (Partial Outage)
+            case 4: $status_color = '#FF4400'; break; // Red    (Major Outage)
+        }
+
+        $final_data = [
+            'text'        => trans('notifications.component.status_update.mattermost.title'),
+            'attachments' => [
+                array_filter([
+                    'fallback'    => $fallback_content,
+                    'title'       => $this->component->name,
+                    'text'        => trans('notifications.component.status_update.mattermost.content_short', [
+                        'old_status' => $this->component->human_status,
+                        'new_status' => trans("cachet.components.status.{$this->status}"),
+                    ]),
+                    'author_name' => Config::get('setting.app_name'),
+                    'author_icon' => asset('img/cachet-icon.png'),
+                    'color'       => $status_color,
+                ])
+            ],
+        ];
+
+        return $final_data;
     }
 }
