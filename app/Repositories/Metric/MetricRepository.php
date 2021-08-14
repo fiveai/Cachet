@@ -71,7 +71,7 @@ class MetricRepository
 
         for ($i = 0; $i < $timeframe; $i++) {
             if (!$points->has($pointKey)) {
-                if ($i >= $metric->threshold) {
+                if ($minutesWithNoData >= $metric->threshold) {
                     $points->put($pointKey, $metric->default_value);
                     //We put default value as metric, so we can reset counter for minutes without data
                     $minutesWithNoData = 0;
