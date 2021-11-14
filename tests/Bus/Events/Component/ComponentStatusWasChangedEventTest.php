@@ -15,7 +15,6 @@ use CachetHQ\Cachet\Bus\Events\Component\ComponentStatusWasChangedEvent;
 use CachetHQ\Cachet\Models\Component;
 use CachetHQ\Cachet\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use MailThief\Testing\InteractsWithMail;
 
 /**
  * This is the component status was changed event test.
@@ -25,7 +24,6 @@ use MailThief\Testing\InteractsWithMail;
 class ComponentStatusWasChangedEventTest extends AbstractComponentEventTestCase
 {
     use DatabaseMigrations;
-    use InteractsWithMail;
 
     public function testComponentUpdateEmailWasSent()
     {

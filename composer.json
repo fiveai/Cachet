@@ -71,7 +71,7 @@
         "fzaninotto/faker": "^1.8",
         "graham-campbell/analyzer": "^2.1",
         "mockery/mockery": "^1.2",
-        "phpunit/phpunit": "^7.4"
+        "phpunit/phpunit": "^8.5"
     },
     "suggest": {
         "ext-apc": "APC Support cache driver."
